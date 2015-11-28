@@ -13,11 +13,13 @@ namespace Server
     {
         private TcpListener server;
         private Int32 serverPort;
+        private Int32 lastClientId;
         private IPAddress serverAddress;
-        private Byte[] bytes, response;
+        private Byte[] bytes;
         private String data;
         private Int32 maxConnections;
         private Thread listeningThread;
+        private List<Client> listOfClients;
 
 
         private void InitNet()
@@ -44,6 +46,28 @@ namespace Server
             return localIP;
         }
 
+        private void clientProcess()
+        {
+            Client currentClient = listOfClients[listOfClients.Count - 1];
+            NetworkStream stream = currentClient.tcpClient.GetStream();
+            try
+            {
+                while (true)
+                {
+                    int i = stream.Read(bytes, 0, bytes.Length);
+                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    Console.WriteLine("From #" + currentClient.Id + ": " + data);
+
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Client #" + currentClient.Id + " disconnected. " + currentClient.remoteIpEndPoint.Address);
+                stream.Close();
+                currentClient.tcpClient.Close();
+            }
+        }
+
         private void AcceptConnection()
         {
             while (true)
@@ -52,15 +76,15 @@ namespace Server
                 TcpClient client = server.AcceptTcpClient();
                 IPEndPoint remoteIpEndPoint = client.Client.RemoteEndPoint as IPEndPoint;
                 Console.WriteLine("Connected a client with IP " + remoteIpEndPoint.Address + " on port number " + remoteIpEndPoint.Port);
-                NetworkStream stream = client.GetStream();
-
-                Console.WriteLine();
-
-                int i = stream.Read(bytes, 0, bytes.Length);
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Received: {0}", data);
-
-                client.Close();
+                Client clientToAdd = new Client()
+                {
+                    Id = lastClientId++,
+                    clientThread = new Thread(new ThreadStart(clientProcess)),
+                    remoteIpEndPoint = remoteIpEndPoint,
+                    tcpClient = client
+                };
+                listOfClients.Add(clientToAdd);
+                clientToAdd.clientThread.Start();
             }
         }
 
@@ -69,7 +93,9 @@ namespace Server
             serverAddress = GetServerIp();
             InitNet();
             listeningThread = new Thread(new ThreadStart(AcceptConnection));
+            listOfClients = new List<Client>();
             maxConnections = _maxConnections;
+            lastClientId = 0;
         }
 
         public void Run()
@@ -82,5 +108,13 @@ namespace Server
         {
             listeningThread.Abort();
         }
+    }
+
+    struct Client
+    {
+        public Thread clientThread;
+        public TcpClient tcpClient;
+        public IPEndPoint remoteIpEndPoint;
+        public Int32 Id;
     }
 }
