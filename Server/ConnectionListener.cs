@@ -20,6 +20,7 @@ namespace Server
         private Int32 maxConnections;
         private Thread listeningThread;
         private List<Client> listOfClients;
+        private MediaStorage mediaStorageEntity;
 
 
         private void InitNet()
@@ -96,6 +97,11 @@ namespace Server
             listOfClients = new List<Client>();
             maxConnections = _maxConnections;
             lastClientId = 0;
+        }
+
+        public void SetMediaStorageService(MediaStorage _mediaStorageEntity)
+        {
+            mediaStorageEntity = _mediaStorageEntity;
         }
 
         public void Run()

@@ -67,8 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionListener.cs" />
+    <Compile Include="MediaStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VMediaStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
