@@ -57,11 +57,12 @@ namespace Server
                 {
                     int i = stream.Read(bytes, 0, bytes.Length);
                     data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    if (data == "")
+                        break;
                     Console.WriteLine("From #" + currentClient.Id + ": " + data);
-
                 }
             }
-            catch (Exception)
+            finally
             {
                 Console.WriteLine("Client #" + currentClient.Id + " disconnected. " + currentClient.remoteIpEndPoint.Address);
                 stream.Close();

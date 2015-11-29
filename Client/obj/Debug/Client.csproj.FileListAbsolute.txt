@@ -1,0 +1,9 @@
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\bin\Debug\Client.exe.config
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\bin\Debug\Client.exe
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\bin\Debug\Client.pdb
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\obj\Debug\Client.Form1.resources
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\obj\Debug\Client.Properties.Resources.resources
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\obj\Debug\Client.exe
+D:\KPI\Visual Studio 2010\Projects\MusicSurfer\Client\obj\Debug\Client.pdb
